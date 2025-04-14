@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Ellen ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(270deg, #ff416c, #ff4b2b, #ff6ec4, #a044ff);
+      background-size: 800% 800%;
+      animation: gradienteAnimado 20s ease infinite;
+      text-align: center;
+      padding: 60px 20px 100px;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+    }
+    h1 {
+      color: white;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      animation: fadeInDown 2s ease;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background: white;
+      color: red;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .mensagem {
+      color: white;
+      font-size: 28px;
+      margin-top: 30px;
+      display: none;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    .slideshow-container {
+      margin-top: 30px;
+      display: none;
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .slide {
+      display: none;
+    }
+    .slide img {
+      width: 100%;
+      border: 10px solid white;
+      border-radius: 20px;
+      box-shadow: 0 0 30px pink;
+      animation: fadeIn 2s ease forwards;
+    }
+    .heart, .flower {
+      position: absolute;
+      font-size: 25px;
+      user-select: none;
+      animation: float 5s linear infinite;
+      pointer-events: none;
+    }
+    .heart {
+      color: pink;
+      font-size: 30px;
+      animation: pulse 1s ease-in-out infinite, float 6s linear infinite;
+    }
+    @keyframes gradienteAnimado {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    @keyframes float {
+      from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8em; }
+      .mensagem { font-size: 22px; }
+      button { font-size: 16px; padding: 12px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Clique para uma surpresa ❤️</h1>
+  <button onclick="mostrar()">Clique aqui</button>
+
+  <div class="mensagem" id="mensagem">Ellen, gosto muito de você 💖<br>
+    Cada momento contigo é especial 🌟<br>
+    Obrigado por ser tão incrível 💕 💖</div>
+
+  <div class="slideshow-container" id="slideshow">
+    <div class="slide"><img src="foto1.jpg.jpeg" alt="Foto 1"></div>
+    <div class="slide"><img src="foto2.jpg.jpeg" alt="Foto 2"></div>
+    <div class="slide"><img src="foto3.jpg.jpeg" alt="Foto 3"></div>
+    <div class="slide"><img src="foto4.jpg.jpeg" alt="Foto 1"></div>
+    <div class="slide"><img src="foto5.jpg.jpeg" alt="Foto 2"></div>
+  </div>
+
+  <audio id="musica" preload="auto">
+    <source src="https://youtu.be/asBjRSI6zQ8?si=XfRYSlWpranWs74Y" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let coracaoIntervalo;
+    let slideIndex = 0;
+
+    function criarElemento(tipo, classe, emoji) {
+      const el = document.createElement("div");
+      el.className = classe;
+      el.innerText = emoji;
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.top = Math.random() * 100 + "vh";
+      el.style.animationDuration = (3 + Math.random() * 2) + "s";
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 6000);
+    }
+
+    function mostrar() {
+      document.getElementById("mensagem").style.display = "block";
+      document.getElementById("slideshow").style.display = "block";
+
+      const musica = document.getElementById("musica");
+      musica.play().catch(e => console.log("Erro ao tocar música:", e));
+
+      for (let i = 0; i < 30; i++) {
+        criarElemento("div", "flower", "🌸");
+        criarElemento("div", "heart", "❤️");
+      }
+
+      if (!coracaoIntervalo) {
+        coracaoIntervalo = setInterval(() => {
+          criarElemento("div", "heart", "❤️");
+        }, 500);
+      }
+
+      iniciarSlideshow();
+    }
+
+    function iniciarSlideshow() {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(slide => slide.style.display = "none");
+      slideIndex++;
+      if (slideIndex > slides.length) slideIndex = 1;
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(iniciarSlideshow, 3000);
+    }
+  </script>
+</body>
+</html>
